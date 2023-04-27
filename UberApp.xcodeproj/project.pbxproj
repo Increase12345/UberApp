@@ -127,8 +127,8 @@
 			isa = PBXGroup;
 			children = (
 				40297A2029F9E7910095D525 /* HomeView.swift */,
-				40297A2C29FA16BD0095D525 /* MapViewActionButton.swift */,
 				40297A2229F9E7EE0095D525 /* UberMapViewRepresentable.swift */,
+				40297A2C29FA16BD0095D525 /* MapViewActionButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
