@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct RideRequestView: View {
+    @State private var selectedRideType: RideType = .uberX
+    @EnvironmentObject var viewModel: LocationSearchViewModel
+    
     var body: some View {
         VStack {
             Capsule()
@@ -41,19 +44,21 @@ struct RideRequestView: View {
                         
                         Spacer()
                         
-                        Text("1:30 PM")
+                        Text(viewModel.pickUpTime ?? "")
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundColor(.secondary)
                     }
                     .padding(.bottom, 10)
                     
                     HStack {
-                        Text("Starbuck coffe")
-                            .font(.system(size: 16, weight: .semibold))
+                        if let location = viewModel.selectedUberLocation {
+                            Text(location.title)
+                                .font(.system(size: 16, weight: .semibold))
+                        }
                         
                         Spacer()
                         
-                        Text("1:45 PM")
+                        Text(viewModel.dropOffTime ?? "")
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundColor(.secondary)
                     }
@@ -74,24 +79,31 @@ struct RideRequestView: View {
             
             ScrollView(.horizontal) {
                 HStack(spacing: 12) {
-                    ForEach(0..<3, id: \.self) { _ in
+                    ForEach(RideType.allCases) { type in
                         VStack(alignment: .leading) {
-                            Image("uber-x")
+                            Image(type.imageName)
                                 .resizable()
                                 .scaledToFit()
                             
                             VStack(alignment: .leading, spacing: 4) {
-                                Text("UberX")
+                                Text(type.description)
                                     .font(.system(size: 14, weight: .semibold))
                                 
-                                Text("$22.04")
+                                Text(viewModel.computeRidePrice(forType: type).toCurrency())
                                     .font(.system(size: 14, weight: .semibold))
                             }
-                            .padding(8)
+                            .padding()
                         }
                         .frame(width: 120, height: 140)
-                        .background(Color(.systemGroupedBackground))
+                        .foregroundColor(type == selectedRideType ? .white: Color.theme.primaryTextColor)
+                        .background(type == selectedRideType ? .blue: Color.theme.secondaryBackgroundColor)
+                        .scaleEffect(type == selectedRideType ? 1.2: 1.0)
                         .cornerRadius(10)
+                        .onTapGesture {
+                            withAnimation(.spring()) {
+                                selectedRideType = type
+                            }
+                        }
                     }
                 }
             }
@@ -121,7 +133,7 @@ struct RideRequestView: View {
                     .padding()
             }
             .frame(height: 50)
-            .background(Color(.systemGroupedBackground))
+            .background(Color.theme.secondaryBackgroundColor)
             .cornerRadius(10)
             .padding(.horizontal)
             
@@ -138,7 +150,7 @@ struct RideRequestView: View {
             }
         }
         .padding(.bottom, 25)
-        .background(.white)
+        .background(Color.theme.backgroundColor)
         .cornerRadius(16)
     }
 }
@@ -146,5 +158,6 @@ struct RideRequestView: View {
 struct RideRequestView_Previews: PreviewProvider {
     static var previews: some View {
         RideRequestView()
+            .environmentObject(LocationSearchViewModel())
     }
 }
