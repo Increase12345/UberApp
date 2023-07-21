@@ -1,5 +1,5 @@
 <h1 align="center">UberApp</h1>
-<h3 align="center">👉 Display the user's location on a responsive map view with SwiftUI</h3>
+<h4 align="center">👉 Display the user's location on a responsive map view with SwiftUI</h4>
 <h3 align="center">👉 Search for locations with an incredible auto complete feature</h3>
 <h3 align="center">👉 Select a location to request a ride</h3>
 <h3 align="center">👉 Build a beautiful user interface with custom pricing models, ride types and more!</h3>
